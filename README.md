@@ -32,7 +32,7 @@ Ao iniciar este projeto, você concorda com as diretrizes do Código de Conduta 
   
   * Este projeto é individual
   * São `3` dias de projeto
-  * Data para entrega final do projeto: `29/06/2022 14:00`
+  * Data para entrega final do projeto: `29/06/2022 14:10`
 
 </details>
 
