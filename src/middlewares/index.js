@@ -1,3 +1,9 @@
-const talkerMiddlewares = require('./talkerMiddlewares');
+const talkerMiddleware = require('./talkerMiddleware');
+const loginMiddleware = require('./loginMiddleware');
+const authenticatesUser = require('./authMiddleware');
 
-module.exports = talkerMiddlewares;
+module.exports = {
+  talkerMiddleware,
+  loginMiddleware,
+  authenticatesUser,
+};
