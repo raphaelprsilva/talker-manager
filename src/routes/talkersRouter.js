@@ -19,6 +19,20 @@ router.get('/', async (_request, response) => {
   response.status(200).json(talkers);
 });
 
+router.get('/search', authenticatesUser, async (request, response) => {
+  const { q } = request.query;
+  const talkers = await readTalkerFile();
+  const filteredTalkers = talkers.filter((t) => t.name.includes(q));
+
+  if (!filteredTalkers.length) {
+    return response
+      .status(404)
+      .json({ message: 'Pessoa palestrante não encontrada' });
+  }
+
+  response.status(200).json(filteredTalkers);
+});
+
 router.get('/:id', async (request, response) => {
   const { id } = request.params;
   const talkers = await readTalkerFile();
