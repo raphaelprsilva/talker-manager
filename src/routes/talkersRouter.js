@@ -52,4 +52,32 @@ router.post(
   },
 );
 
+router.put(
+  '/:id',
+  validateName,
+  validateAge,
+  validateTalk,
+  validateTalkRate,
+  validateTalkWatchedAt,
+  async (request, response) => {
+    const { id } = request.params;
+    const { name, age, talk } = request.body;
+    const talkers = await readTalkerFile();
+    const talkerIndex = talkers.findIndex((t) => t.id === Number(id));
+
+    if (talkerIndex === -1) {
+      return response
+        .status(400)
+        .json({ message: 'Pessoa palestrante não encontrada' });
+    }
+
+    const updatedTalker = { id: Number(id), name, age, talk };
+    talkers[talkerIndex] = updatedTalker;
+
+    await writeTalkerFile(talkers);
+
+    response.status(200).json(updatedTalker);
+  },
+);
+
 module.exports = router;
