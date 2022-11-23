@@ -1,7 +1,9 @@
 const express = require('express');
 
 const { generateToken } = require('../utils/setToken');
-const { validateEmail, validatePassword } = require('../middlewares');
+const {
+  loginMiddleware: { validateEmail, validatePassword },
+} = require('../middlewares');
 
 const router = express.Router();
 
