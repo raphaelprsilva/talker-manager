@@ -80,4 +80,22 @@ router.put(
   },
 );
 
+router.delete('/:id', async (request, response) => {
+  const { id } = request.params;
+  const talkers = await readTalkerFile();
+  const talkerIndex = talkers.findIndex((t) => t.id === Number(id));
+
+  if (talkerIndex === -1) {
+    return response
+      .status(400)
+      .json({ message: 'Pessoa palestrante não encontrada' });
+  }
+
+  talkers.splice(talkerIndex, 1);
+
+  await writeTalkerFile(talkers);
+
+  response.status(204).end();
+});
+
 module.exports = router;
