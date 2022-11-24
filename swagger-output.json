@@ -1,0 +1,282 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Talker Manager API",
+    "description": "This is the API for the Talker Manager",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header",
+      "description": "Authentication token",
+      "persistent": true
+    }
+  },
+  "paths": {
+    "/login/": {
+      "post": {
+        "summary": "Login",
+        "tags": ["Login"],
+        "description": "Login to the Talker Manager",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Email of the user",
+                  "example": "fulanoDeTal@mail.com",
+                  "format": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Password of the user",
+                  "example": "123456asdf",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/talker/": {
+      "get": {
+        "summary": "Get all talkers",
+        "tags": ["Talker"],
+        "description": "In this endpoint you can list all talkers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Create a new talker",
+        "tags": ["Talker"],
+        "description": "In this endpoint you can create a new talker",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the talker",
+                  "example": "Fulano de Tal",
+                  "type": "string",
+                  "required": true
+                },
+                "age": {
+                  "description": "Age of the talker",
+                  "example": "19",
+                  "type": "integer",
+                  "minimum": 18,
+                  "required": true
+                },
+                "talk": {
+                  "description": "Talk of the talker",
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "watchedAt": {
+                      "example": "23/10/2020",
+                      "type": "string",
+                      "required": true,
+                      "format": "date",
+                      "description": "Date of the talk"
+                    },
+                    "rate": {
+                      "example": 5,
+                      "type": "integer",
+                      "required": true,
+                      "minimum": 1,
+                      "maximum": 5,
+                      "description": "Rate of the talk"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/talker/search": {
+      "get": {
+        "summary": "Search talkers by query",
+        "tags": ["Talker"],
+        "description": "In this endpoint you can search talkers by name",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/talker/{id}": {
+      "get": {
+        "summary": "Get a talker by id",
+        "tags": ["Talker"],
+        "description": "In this endpoint you can get a talker by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a talker by id",
+        "tags": ["Talker"],
+        "description": "Update a talker by id",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the talker",
+                  "example": "Fulano de Tal",
+                  "type": "string",
+                  "required": true
+                },
+                "age": {
+                  "description": "Age of the talker",
+                  "example": "19",
+                  "type": "integer",
+                  "minimum": 18,
+                  "required": true
+                },
+                "talk": {
+                  "description": "Talk of the talker",
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "watchedAt": {
+                      "example": "23/10/2020",
+                      "type": "string",
+                      "required": true,
+                      "format": "date",
+                      "description": "Date of the talk"
+                    },
+                    "rate": {
+                      "example": 5,
+                      "type": "integer",
+                      "required": true,
+                      "minimum": 1,
+                      "maximum": 5,
+                      "description": "Rate of the talk"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a talker by id",
+        "tags": ["Talker"],
+        "description": "Deletes a talker by id",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  }
+}
